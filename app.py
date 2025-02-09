@@ -81,4 +81,5 @@ def get_player_career_summary():
     player = request.args.get('player')
     return jsonify(apis.player_career_summary(player))
 
-app.run(debug=True)
+if __name__ == '__main__':
+    app.run(debug=True)
