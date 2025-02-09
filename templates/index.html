@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPL APIs Explorer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa; /* Light gray background */
+            color: #333; /* Dark gray text for readability */
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #ffffff; /* White container */
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #ff6f61; /* Vibrant coral for the heading */
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+        .api-link {
+            background-color: #ffffff; /* White background for cards */
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            border: 1px solid #e0e0e0; /* Light border for separation */
+        }
+        .api-link:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(255, 111, 97, 0.2); /* Coral shadow on hover */
+        }
+        .api-link a {
+            text-decoration: none;
+            color: #ff6f61; /* Coral for links */
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        .input-group {
+            margin-top: 10px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #ff6f61; /* Coral for labels */
+        }
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f8f9fa; /* Light gray for input fields */
+            border: 1px solid #ff6f61; /* Coral border */
+            border-radius: 4px;
+            color: #333; /* Dark gray text */
+        }
+        .input-group input:focus {
+            border-color: #ff6f61; /* Coral border on focus */
+            outline: none;
+        }
+        .input-group button {
+            width: 100%;
+            padding: 10px;
+            background-color: #ff6f61; /* Coral button */
+            color: #ffffff; /* White text */
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        .input-group button:hover {
+            background-color: #ff4a3d; /* Darker coral on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>IPL APIs Explorer</h1>
+        
+        <div class="api-link">
+            <a href="/teams">Get Teams</a>
+        </div>
+        
+        <div class="api-link">
+            <a href="#" onclick="toggleInputGroup('match_summary')">Match Summary</a>
+            <div class="input-group" id="match_summary" style="display: none;">
+                <label for="match_id">Enter Match ID:</label>
+                <input type="text" id="match_id" placeholder="Match ID">
+                <button onclick="callApi('/match_summary', 'match_id')">Get Match Summary</button>
+            </div>
+        </div>
+        
+        <div class="api-link">
+            <a href="#" onclick="toggleInputGroup('match_won_by_team')">Matches Won by Team</a>
+            <div class="input-group" id="match_won_by_team" style="display: none;">
+                <label for="team">Enter Team Name:</label>
+                <input type="text" id="team" placeholder="Team Name">
+                <button onclick="callApi('/match_won_by_team', 'team')">Get Matches Won</button>
+            </div>
+        </div>
+        
+        <div class="api-link">
+            <a href="#" onclick="toggleInputGroup('matches_by_venue')">Matches by Venue</a>
+            <div class="input-group" id="matches_by_venue" style="display: none;">
+                <label for="venue">Enter Venue:</label>
+                <input type="text" id="venue" placeholder="Venue">
+                <button onclick="callApi('/matches_by_venue', 'venue')">Get Matches by Venue</button>
+            </div>
+        </div>
+        
+        <div class="api-link">
+            <a href="#" onclick="toggleInputGroup('player_of_match_performance')">Player of Match Performance</a>
+            <div class="input-group" id="player_of_match_performance" style="display: none;">
+                <label for="player">Enter Player Name:</label>
+                <input type="text" id="player" placeholder="Player Name">
+                <button onclick="callApi('/player_of_match_performance', 'player')">Get Player Performance</button>
+            </div>
+        </div>
+        
+        <div class="api-link">
+            <a href="/toss_decision_analysis">Get Toss Decision Analysis</a>
+        </div>
+        
+        <div class="api-link">
+            <a href="#" onclick="toggleInputGroup('head_to_head')">Head to Head</a>
+            <div class="input-group" id="head_to_head" style="display: none;">
+                <label for="team1">Enter Team 1:</label>
+                <input type="text" id="team1" placeholder="Team 1">
+                <label for="team2">Enter Team 2:</label>
+                <input type="text" id="team2" placeholder="Team 2">
+                <button onclick="callApiWithTwoParams('/head_to_head', 'team1', 'team2')">Get Head to Head</button>
+            </div>
+        </div>
+        
+        <div class="api-link">
+            <a href="#" onclick="toggleInputGroup('matches_by_margin')">Matches by Margin</a>
+            <div class="input-group" id="matches_by_margin" style="display: none;">
+                <label for="margin_type">Enter Margin Type (Runs/Wickets):</label>
+                <input type="text" id="margin_type" placeholder="Margin Type">
+                <label for="margin">Enter Margin:</label>
+                <input type="text" id="margin" placeholder="Margin">
+                <button onclick="callApiWithTwoParams('/matches_by_margin', 'margin_type', 'margin')">Get Matches by Margin</button>
+            </div>
+        </div>
+        
+        <div class="api-link">
+            <a href="#" onclick="toggleInputGroup('player_matches')">Player Matches</a>
+            <div class="input-group" id="player_matches" style="display: none;">
+                <label for="player_matches_input">Enter Player Name:</label>
+                <input type="text" id="player" placeholder="Player Name">
+                <button onclick="callApi('/player_matches', 'player')">Get Player Matches</button>
+            </div>
+        </div>
+        
+        <div class="api-link">
+            <a href="#" onclick="toggleInputGroup('season_analysis')">Season Analysis</a>
+            <div class="input-group" id="season_analysis" style="display: none;">
+                <label for="season">Enter Season:</label>
+                <input type="text" id="season" placeholder="Season">
+                <button onclick="callApi('/season_analysis', 'season')">Get Season Analysis</button>
+            </div>
+        </div>
+        
+        <div class="api-link">
+            <a href="/super_over_matches">Get Super Over Matches</a>
+        </div>
+        
+        <div class="api-link">
+            <a href="/highest_margin_matches">Get Highest Margin Matches</a>
+        </div>
+        
+        <div class="api-link">
+            <a href="#" onclick="toggleInputGroup('season_summary')">Season Summary</a>
+            <div class="input-group" id="season_summary" style="display: none;">
+                <label for="season">Enter Season:</label>
+                <input type="text" id="season" placeholder="Season">
+                <button onclick="callApi('/season_summary', 'season')">Get Season Summary</button>
+            </div>
+        </div>
+        
+        <div class="api-link">
+            <a href="#" onclick="toggleInputGroup('team_performance_over_seasons')">Team Performance Over Seasons</a>
+            <div class="input-group" id="team_performance_over_seasons" style="display: none;">
+                <label for="team_performance">Enter Team Name:</label>
+                <input type="text" id="team" placeholder="Team Name">
+                <button onclick="callApi('/team_performance_over_seasons', 'team')">Get Team Performance</button>
+            </div>
+        </div>
+        
+        <div class="api-link">
+            <a href="#" onclick="toggleInputGroup('player_career_summary')">Player Career Summary</a>
+            <div class="input-group" id="player_career_summary" style="display: none;">
+                <label for="player_career">Enter Player Name:</label>
+                <input type="text" id="player" placeholder="Player Name">
+                <button onclick="callApi('/player_career_summary', 'player')">Get Player Career Summary</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleInputGroup(id) {
+            var element = document.getElementById(id);
+            element.style.display = element.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function callApi(endpoint, inputId) {
+            var value = document.getElementById(inputId).value;
+            console.log(value);
+            window.location.href = endpoint + '?' + inputId + '=' + encodeURIComponent(value);
+        }
+
+        function callApiWithTwoParams(endpoint, inputId1, inputId2) {
+            var value1 = document.getElementById(inputId1).value;
+            var value2 = document.getElementById(inputId2).value;
+            window.location.href = endpoint + '?' + inputId1 + '=' + encodeURIComponent(value1) + '&' + inputId2 + '=' + encodeURIComponent(value2);
+        }
+    </script>
+</body>
+</html>

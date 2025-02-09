@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 # from apis import match_summary, match_won_by_team, matches_by_venue, teams, player_of_match_performance,
 import apis
 
@@ -6,7 +6,8 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return '<h1>IPL APIs<h1>'
+    # return '<h1>IPL APIs<h1>'
+    return render_template('index.html')
 
 @app.route('/teams')
 def get_teams():
