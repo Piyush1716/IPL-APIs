@@ -95,7 +95,7 @@
             <div class="input-group" id="match_summary" style="display: none;">
                 <label for="match_id">Enter Match ID:</label>
                 <input type="text" id="match_id" placeholder="Match ID">
-                <button onclick="callApi('/match_summary', 'match_id')">Get Match Summary</button>
+                <button onclick="callApi('/match_summary', 'match_id','match_id')">Get Match Summary</button>
             </div>
         </div>
         
@@ -104,7 +104,7 @@
             <div class="input-group" id="match_won_by_team" style="display: none;">
                 <label for="team">Enter Team Name:</label>
                 <input type="text" id="team" placeholder="Team Name">
-                <button onclick="callApi('/match_won_by_team', 'team')">Get Matches Won</button>
+                <button onclick="callApi('/match_won_by_team', 'team','team')">Get Matches Won</button>
             </div>
         </div>
         
@@ -113,7 +113,7 @@
             <div class="input-group" id="matches_by_venue" style="display: none;">
                 <label for="venue">Enter Venue:</label>
                 <input type="text" id="venue" placeholder="Venue">
-                <button onclick="callApi('/matches_by_venue', 'venue')">Get Matches by Venue</button>
+                <button onclick="callApi('/matches_by_venue', 'venue','venue')">Get Matches by Venue</button>
             </div>
         </div>
         
@@ -122,7 +122,7 @@
             <div class="input-group" id="player_of_match_performance" style="display: none;">
                 <label for="player">Enter Player Name:</label>
                 <input type="text" id="player" placeholder="Player Name">
-                <button onclick="callApi('/player_of_match_performance', 'player')">Get Player Performance</button>
+                <button onclick="callApi('/player_of_match_performance', 'player','player')">Get Player Performance</button>
             </div>
         </div>
         
@@ -156,8 +156,8 @@
             <a href="#" onclick="toggleInputGroup('player_matches')">Player Matches</a>
             <div class="input-group" id="player_matches" style="display: none;">
                 <label for="player_matches_input">Enter Player Name:</label>
-                <input type="text" id="player" placeholder="Player Name">
-                <button onclick="callApi('/player_matches', 'player')">Get Player Matches</button>
+                <input type="text" id="player_mat" placeholder="Player Name">
+                <button onclick="callApi('/player_matches', 'player','player_mat')">Get Player Matches</button>
             </div>
         </div>
         
@@ -166,7 +166,7 @@
             <div class="input-group" id="season_analysis" style="display: none;">
                 <label for="season">Enter Season:</label>
                 <input type="text" id="season" placeholder="Season">
-                <button onclick="callApi('/season_analysis', 'season')">Get Season Analysis</button>
+                <button onclick="callApi('/season_analysis', 'season','season')">Get Season Analysis</button>
             </div>
         </div>
         
@@ -182,8 +182,8 @@
             <a href="#" onclick="toggleInputGroup('season_summary')">Season Summary</a>
             <div class="input-group" id="season_summary" style="display: none;">
                 <label for="season">Enter Season:</label>
-                <input type="text" id="season" placeholder="Season">
-                <button onclick="callApi('/season_summary', 'season')">Get Season Summary</button>
+                <input type="text" id="season_sum" placeholder="Season">
+                <button onclick="callApi('/season_summary', 'season','season_sum')">Get Season Summary</button>
             </div>
         </div>
         
@@ -191,8 +191,8 @@
             <a href="#" onclick="toggleInputGroup('team_performance_over_seasons')">Team Performance Over Seasons</a>
             <div class="input-group" id="team_performance_over_seasons" style="display: none;">
                 <label for="team_performance">Enter Team Name:</label>
-                <input type="text" id="team" placeholder="Team Name">
-                <button onclick="callApi('/team_performance_over_seasons', 'team')">Get Team Performance</button>
+                <input type="text" id="team_per" placeholder="Team Name">
+                <button onclick="callApi('/team_performance_over_seasons', 'team', 'team_per')">Get Team Performance</button>
             </div>
         </div>
         
@@ -200,8 +200,8 @@
             <a href="#" onclick="toggleInputGroup('player_career_summary')">Player Career Summary</a>
             <div class="input-group" id="player_career_summary" style="display: none;">
                 <label for="player_career">Enter Player Name:</label>
-                <input type="text" id="player" placeholder="Player Name">
-                <button onclick="callApi('/player_career_summary', 'player')">Get Player Career Summary</button>
+                <input type="text" id="player_sum" placeholder="Player Name">
+                <button onclick="callApi('/player_career_summary', 'player', 'player_sum')">Get Player Career Summary</button>
             </div>
         </div>
     </div>
@@ -212,10 +212,9 @@
             element.style.display = element.style.display === 'none' ? 'block' : 'none';
         }
 
-        function callApi(endpoint, inputId) {
+        function callApi(endpoint,key, inputId) {
             var value = document.getElementById(inputId).value;
-            console.log(value);
-            window.location.href = endpoint + '?' + inputId + '=' + encodeURIComponent(value);
+            window.location.href = endpoint + '?' + key + '=' + encodeURIComponent(value);
         }
 
         function callApiWithTwoParams(endpoint, inputId1, inputId2) {
@@ -223,6 +222,17 @@
             var value2 = document.getElementById(inputId2).value;
             window.location.href = endpoint + '?' + inputId1 + '=' + encodeURIComponent(value1) + '&' + inputId2 + '=' + encodeURIComponent(value2);
         }
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get all anchor tags with href="#"
+            const anchorTags = document.querySelectorAll('a[href="#"]');
+
+            // Add click event listeners to each anchor tag
+            anchorTags.forEach(function (anchor) {
+                anchor.addEventListener("click", function (event) {
+                    event.preventDefault(); // Prevent default behavior (scrolling to top)
+                });
+            });
+        });
     </script>
 </body>
 </html>
